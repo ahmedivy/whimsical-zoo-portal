@@ -4,14 +4,14 @@ import { Badge } from "@/components/ui/badge";
 interface AnimalCardProps {
   name: string;
   species: string;
-  status: "healthy" | "sick" | "attention";
+  status: "healthy" | "critical" | "attention";
   image: string;
 }
 
 export function AnimalCard({ name, species, status, image }: AnimalCardProps) {
   const statusColors = {
     healthy: "bg-green-500",
-    sick: "bg-red-500",
+    critical: "bg-red-500",
     attention: "bg-yellow-500",
   };
 
