@@ -1,4 +1,4 @@
-import { Users, Paw, DollarSign, Calendar } from "lucide-react";
+import { Users, ArrowRight, DollarSign, Calendar } from "lucide-react";
 import { StatCard } from "@/components/StatCard";
 import { AnimalCard } from "@/components/AnimalCard";
 import { VisitorChart } from "@/components/VisitorChart";
@@ -47,7 +47,7 @@ const Index = () => {
           <StatCard
             title="Total Animals"
             value="156"
-            icon={<Paw className="h-4 w-4 text-muted-foreground" />}
+            icon={<ArrowRight className="h-4 w-4 text-muted-foreground" />}
           />
           <StatCard
             title="Revenue"
