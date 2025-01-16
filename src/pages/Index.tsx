@@ -4,29 +4,16 @@ import { AnimalCard } from "@/components/AnimalCard";
 import { VisitorChart } from "@/components/VisitorChart";
 import { ActivityFeed } from "@/components/ActivityFeed";
 import { Button } from "@/components/ui/button";
-
-const animals = [
-  {
-    name: "Leo",
-    species: "African Lion",
-    status: "healthy" as const,
-    image: "https://images.unsplash.com/photo-1614027164847-1b28cfe1df60?w=800&h=600&fit=crop",
-  },
-  {
-    name: "Luna",
-    species: "Polar Bear",
-    status: "attention" as const,
-    image: "https://images.unsplash.com/photo-1589656966895-2f33e7653819?w=800&h=600&fit=crop",
-  },
-  {
-    name: "Raja",
-    species: "Bengal Tiger",
-    status: "healthy" as const,
-    image: "https://images.unsplash.com/photo-1561731216-c3a4d99437d5?w=800&h=600&fit=crop",
-  },
-];
+import { useAnimals } from "@/hooks/useAnimals";
+import { useVisitors } from "@/hooks/useVisitors";
 
 const Index = () => {
+  const { data: animals, isLoading: isLoadingAnimals } = useAnimals();
+  const { data: visitors } = useVisitors();
+
+  const todayVisitors = visitors?.[visitors.length - 1]?.count || 0;
+  const totalAnimals = animals?.length || 0;
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-green-50 to-green-100 p-8">
       <div className="max-w-7xl mx-auto space-y-8">
@@ -41,12 +28,12 @@ const Index = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           <StatCard
             title="Daily Visitors"
-            value="1,234"
+            value={todayVisitors.toString()}
             icon={<Users className="h-4 w-4 text-muted-foreground" />}
           />
           <StatCard
             title="Total Animals"
-            value="156"
+            value={totalAnimals.toString()}
             icon={<ArrowRight className="h-4 w-4 text-muted-foreground" />}
           />
           <StatCard
@@ -62,9 +49,19 @@ const Index = () => {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {animals.map((animal) => (
-            <AnimalCard key={animal.name} {...animal} />
-          ))}
+          {isLoadingAnimals ? (
+            <p className="text-muted-foreground">Loading animals...</p>
+          ) : (
+            animals?.map((animal) => (
+              <AnimalCard
+                key={animal.id}
+                name={animal.name}
+                species={animal.species}
+                status={animal.status}
+                image={animal.image_url || ""}
+              />
+            ))
+          )}
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
